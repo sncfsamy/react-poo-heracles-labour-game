@@ -5,15 +5,15 @@ import Shield from './Shield';
 const MAX_LIFE = 100;
 let ids = Math.ceil(Math.random()*1000000);
 const weapons = [
-    new Weapon("Super épée brillante",19),
-    new Weapon("Épée de bonne facture", 13),
-    new Weapon("Épée pointue un peu émoussée", 10)
+    () => new Weapon("Super épée brillante",19),
+    () => new Weapon("Épée de bonne facture", 13),
+    () => new Weapon("Épée pointue un peu émoussée", 10)
 ];
 
 const shields = [
-    new Shield("Bouclier en vibranioum", 17),
-    new Shield("Grand bouclier en fer forgé", 13),
-    new Shield("Vieux bouclier pourri", 10)
+    () => new Shield("Bouclier en vibranioum", 17),
+    () => new Shield("Grand bouclier en fer forgé", 13),
+    () => new Shield("Vieux bouclier pourri", 10)
 ];
 
 class Fighter {
@@ -97,13 +97,11 @@ class Fighter {
     }
 
     giveWeapon() {
-        this.weapon = weapons[Math.ceil(Math.random() * weapons.length)-1];
-        this.weapon.durability = this.defaultDurability;
+        this.weapon = weapons[Math.ceil(Math.random() * weapons.length)-1]();
     }
 
     giveShield() {
-        this.shield = shields[Math.ceil(Math.random() * shields.length)-1];
-        this.shield.durability = this.defaultDurability;
+        this.shield = shields[Math.ceil(Math.random() * shields.length)-1]();
     }
 
     getDamage(fighter) {
