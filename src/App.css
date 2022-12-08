@@ -7,6 +7,7 @@ html {
 
 .content {
   display: flex;
+  margin-left: 20px;
   align-items: center;
   justify-content: space-around;
   height: 85vh;

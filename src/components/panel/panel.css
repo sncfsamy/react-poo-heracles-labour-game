@@ -1,16 +1,29 @@
+
+aside section {
+    min-width: 165px;
+    max-width: 330px;
+}
+
 aside div h2 {
-    margin-left: -10px;
+    margin-left: -5px;
 }
 
 aside section > div {
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
 aside section > div > div > h3, section > h3 {
-    margin-left: -10px;
+    margin-left: -5px;
 }
-.fighters, .fighters div:nth-child(2) div {
+
+.fighters div:nth-child(2) div {
     display: flex;
+}
+
+.fighters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
 }
 
 .fighters div:nth-child(2) div h3 {
@@ -33,11 +46,6 @@ form div {
     display: flex;
     justify-content: flex-end;
 }
-
-aside section {
-    max-width: 300px;
-}
-
 .select-fighters {
     text-align: right;
     margin-bottom: 5px;

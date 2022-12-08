@@ -11,13 +11,13 @@
 }
 
 .hero {
-    font-size: xx-large;
+    font-size: clamp(20px, xx-large, xx-large);
 }
 .score {
-    font-size:xx-large;
-    line-height: 55px;
+    font-size: clamp(20px, x-large, xx-large);
+    line-height: clamp(22px, 35px, 55px);
 }
 span.hero-name {
-    font-size: x-large;
-    line-height: 55px;
+    font-size: clamp(20px, x-large, xx-large);
+    line-height: clamp(22px, 35px, 55px);
 }
