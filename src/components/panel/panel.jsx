@@ -12,6 +12,7 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
     const handleHeroSelect = (e) => setHero(fighters.find((fighter => { return findById(fighter, e.target.value)})));
     const handleEnemySelect = (e) => setEnemy(fighters.find((fighter => { return findById(fighter, e.target.value)})));
     const handleSimulate = (e) => {
+        e.preventDefault();
         if (!inSimulation) {
             if (toSimulate > 0) {
                 setInSimulation(true);
@@ -68,7 +69,7 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
         <section>
             <h3>Edition des combattants</h3>
             <div className="select-fighters">
-                <select onChange={(e) => setSelectedFighter(e.target.value)} value={selectedFighter} disabled={inSimulation}>
+                <select onChange={(e) => setSelectedFighter(e.target.value)} value={selectedFighter}>
                     <option value="-1">Ajouter un combattant</option>
                     { fighters.map(fighter => 
                         <option key={fighter.id} value={fighter.id}>
@@ -81,8 +82,10 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
         </section>
         <section>
             <h3>Simulation de combats de masse</h3>
-            <div><label htmlFor="simulation">Combats</label><input type="number" value={toSimulate} onChange={(e) => (e.target.value !== "" && /^\d*$/.test(e.target.value)) && setToSimulate(parseInt(e.target.value))} disabled={inSimulation} /></div>
-            <div className="buttons"><button onClick={handleSimulate} disabled={(inFight && !inSimulation) || toSimulate === 0}>{inSimulation ? "Interrompre" : "Démarrer la simulation"}</button></div>
+            <form onSubmit={handleSimulate}>
+                <div><label htmlFor="simulation">Combats</label><input type="number" value={toSimulate} onChange={(e) => (e.target.value !== "" && /^\d*$/.test(e.target.value)) && setToSimulate(parseInt(e.target.value))} disabled={inSimulation || inFight} /></div>
+                <div className="buttons"><button onClick={handleSimulate} disabled={inFight && !inSimulation}>{inSimulation ? "Interrompre" : "Démarrer la simulation"}</button></div>
+            </form>
         </section>
     </aside>
 }
