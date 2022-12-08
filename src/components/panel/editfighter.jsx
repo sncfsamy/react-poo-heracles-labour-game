@@ -7,7 +7,7 @@ const EditFighter = ({fighters, selectedFighter, setFighters, inFight, inSimulat
     const [fighter, setFighter] = React.useState(fighters.find(findById) || new Fighter("",0,0));
     const handleChange = (e) => {
         let value = e.target.id !== "name" && e.target.id !== "needWeapon" && e.target.id !== "canHaveWeapon" ? parseInt(e.target.value) : e.target.id === "needWeapon" || e.target.id === "canHaveWeapon" ? e.target.checked : e.target.value;
-        if (e.target.id !== "name" && e.target.id !== "needWeapon" && e.target.id !== "canHaveWeapon" && (!/^\d*$/.test(e.target.value) || e.target.value === "")) {
+        if (e.target.id !== "name" && e.target.id !== "needWeapon" && e.target.id !== "canHaveWeapon" && (!/^\d*$/.test(value) || e.target.value === "")) {
             e.target.value = fighter[e.target.id];
         }
         setFighter({...fighter, [e.target.id] : value});
