@@ -34,7 +34,7 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
         </div>
         <section className="fighters">
             <div>
-                <h3>Héro</h3>
+                <div><h3>Héro</h3></div>
                 <select id="hero" size="4" value={(hero && hero.id) || fighters[0].id} onChange={handleHeroSelect} disabled={inSimulation || inFight}>
                     { fighters.map(fighter => 
                         <option 
@@ -42,7 +42,7 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
                             value={fighter.id} 
                             disabled={enemy && enemy.id===fighter.id}
                             >
-                                {fighter.name}
+                                {fighter.getReverseName()}
                         </option>
                     )}
                 </select>
@@ -56,7 +56,7 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
                             value={fighter.id} 
                             disabled={hero && hero.id===fighter.id}
                             >
-                                {fighter.name}
+                                {fighter.getReverseName()}
                         </option>
                     )}
                 </select>
@@ -67,14 +67,16 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
         </section>
         <section>
             <h3>Edition des combattants</h3>
-            <select onChange={(e) => setSelectedFighter(e.target.value)} value={selectedFighter} disabled={inSimulation}>
-                <option value="-1">Ajouter un combattant</option>
-                { fighters.map(fighter => 
-                    <option key={fighter.id} value={fighter.id}>
-                        {fighter.name}
-                    </option>
-                )}
-            </select>
+            <div className="select-fighters">
+                <select onChange={(e) => setSelectedFighter(e.target.value)} value={selectedFighter} disabled={inSimulation}>
+                    <option value="-1">Ajouter un combattant</option>
+                    { fighters.map(fighter => 
+                        <option key={fighter.id} value={fighter.id}>
+                            {fighter.name}
+                        </option>
+                    )}
+                </select>
+            </div>
             <EditFighter selectedFighter={selectedFighter} setFighters={setFighters} fighters={fighters} inFight={inFight} inSimulation={inSimulation} />
         </section>
         <section>

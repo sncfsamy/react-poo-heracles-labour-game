@@ -27,8 +27,8 @@ function App() {
   }
   function fight() {
     let attackHero, attackEnemy;
-    hero.isAliveFct(() => attackHero = hero.fight(enemy));
-    enemy.isAliveFct(() => attackEnemy = enemy.fight(hero));
+    attackHero = hero.isAlive() && hero.fight(enemy);
+    attackEnemy = enemy.isAlive() && enemy.fight(hero);
     const fightEnded = !(enemy.isAlive() && hero.isAlive());
     if (fightEnded) {
       hero.attacks += hero.attacksLastFight;
@@ -82,28 +82,28 @@ function App() {
     let heal = 0;
     toLog = <></>;
     if (!hero.isAlive()) {
-        hero.weapon = null;
-        hero.shield = null;
+      hero.weapon = null;
+      hero.shield = null;
     }
     if (hero.life < 100) {
-        heal = (enemy.defaultLife - hero.life > 100 || hero.life === 0) ? 100-hero.life : 50;
-        heal = (hero.life+heal > 100)? 100-hero.life : heal;
-        toLog = <>{toLog}<div>{hero.heal(heal)}</div></>;
+      heal = (enemy.defaultLife - hero.life > 100 || hero.life === 0 || enemy.needWeapon) ? 100-hero.life : 50;
+      heal = (hero.life+heal > 100)? 100-hero.life : heal;
+      toLog = <>{toLog}<div>{hero.heal(heal)}</div></>;
     }
-    if (hero.canHaveWeapon && !hero.shield && !hero.weapon && (Math.random() > 0.8 || enemy.needWeapon)) {
-        hero.giveWeapon();
-        hero.giveShield();
-        toLog = <>{toLog}<div>{hero.name} a trouvé une <b className="weapon">{hero.weapon.name}</b> et un <b className="shield">{hero.shield.name}</b> !</div></>;
+    if (hero.canHaveWeapon && ((!hero.shield && !hero.weapon && Math.random() > 0.8) || enemy.needWeapon)) {
+      hero.giveWeapon();
+      hero.giveShield();
+      toLog = <>{toLog}<div>{hero.name} a trouvé une <b className="weapon">{hero.weapon.name}</b> et un <b className="shield">{hero.shield.name}</b> !</div></>;
     }
     if (enemy.life < 100) enemy.life = enemy.defaultLife;
-    toLog = <>{toLog}<div>{hero.getLife()}</div><div>{enemy.getLife()}</div><div className={"win"}>Le combat commencera dans 10sec...</div></>
+    toLog = <>{toLog}<div>{hero.getLife()}</div><div>{enemy.getLife()}</div>{!inSimulation && <div className={"win"}>Le combat commencera dans 10sec...</div>}</>
     setLog(toLog);
-    restartTimeout = setTimeout(() => {restartTimeout=undefined; fight();}, inSimulation ? 0 : 10000);
+    restartTimeout = setTimeout(() => {restartTimeout=undefined; fight();}, inSimulation ? 1 : 10000);
   }
   useEffect(() => {
-    if(!inFight && inSimulation && toSimulate > 0) {
+    if ((!inFight && inSimulation && toSimulate > 0) || !inFight && !restartTimeout && autoGame) {
       if (autoEnemy.current) pickNewEnemy();
-      startFight();
+      restartTimeout = setTimeout(() => {restartTimeout=undefined; startFight();}, inSimulation ? 1 : 0);
     } else if (inSimulation && toSimulate === 0) {
       setInSimulation(false);
     } else if (!inSimulation && restartTimeout && !autoGame) {
@@ -111,11 +111,7 @@ function App() {
       restartTimeout = undefined;
       setInFight(false);
       setLog(<div className="death">Combat annulé !</div>);
-    } else if (!inFight && !restartTimeout && autoGame) {
-      setLog(<div className="win">Un combat commencera dans 10sec...</div>);
-      restartTimeout = setTimeout(() => {restartTimeout=undefined; fight();}, 10000);
-      setInFight(true);
-    }
+    } 
   }, [autoGame,toSimulate,inSimulation]);
 
   return (

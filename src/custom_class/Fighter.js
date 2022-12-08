@@ -89,7 +89,11 @@ class Fighter {
     }
 
     getName() {
-        return (this.shield?"🛡️":"") + (this.weapon? "🗡️" : "") + this.name;
+        return (this.shield?"🛡️":"") + (this.weapon? "🗡️" : "") + " " + this.name;
+    }
+
+    getReverseName() {
+        return this.name + " " + (this.weapon? "🗡️" : "") + (this.shield?"🛡️":"");
     }
 
     giveWeapon() {
@@ -104,18 +108,19 @@ class Fighter {
         const weaponDamage = this.weapon && this.weapon.durability ? this.weapon.damage : 0;
         let attack = Math.random() * (this.strength + weaponDamage);
         let msg, looseShield, looseWeapon;
+        const defAttack = attack;
         attack = (attack - fighter.getDefense())>0 ? attack-fighter.getDefense(): Math.random()>0.5? 1 : 0;
         if (attack <= 1)
-            if ((Math.random() + Math.random() + Math.random() +Math.random() + this.dexterity/25 + this.badChance) > 3.2 || (this.name === '🧔 Héraclès' && Math.random()>0.9)) {
+            if ((Math.random() + Math.random() + Math.random() +Math.random() + this.dexterity/25 + this.badChance) > 3.2 || (this.canHaveWeapon && Math.random()>0.9) || (this.needWeapon && Math.random()>0.7 && Math.random()>0.7 && Math.random()>0.7)) {
              attack = ((Math.random()+this.badChance) * this.strength)-fighter.getDefense()/4;
-             attack = attack<10? attack+10 : attack;
+             attack = attack<10 && this.canHaveWeapon? attack+10 : attack>17 && this.needWeapon? attack/2 : attack;
              msg = <div><span className="chance">{this.name} réussi à attaquer par chance ! (<b> {attack.toFixed(2)}pts de dégats</b> dont <b>{this.badChance.toFixed(2)}pts de dégats de chance</b> !)</span></div>;
              this.badChance = 0;
             } else this.badChance += 0.025;
         
         if (attack && this.weapon && !this.weapon.use()) looseWeapon = this.looseWeapon(fighter);
 
-        if (fighter.shield && !fighter.shield.use()) looseShield = fighter.looseShield();
+        if (defAttack && fighter.shield && !fighter.shield.use()) looseShield = fighter.looseShield();
         
         return [attack, msg, looseWeapon, looseShield];
     }

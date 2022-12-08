@@ -1,9 +1,22 @@
+aside div h2 {
+    margin-left: -10px;
+}
+
+aside section > div {
+    margin-left: 20px;
+}
+
+aside section > div > div > h3, section > h3 {
+    margin-left: -10px;
+}
 .fighters, .fighters div:nth-child(2) div {
     display: flex;
 }
+
 .fighters div:nth-child(2) div h3 {
     display: inline-block;
 }
+
 .fighters div:nth-child(2) div {
     justify-content: space-between;
     align-items: center;
@@ -23,4 +36,9 @@ form div {
 
 aside section {
     max-width: 300px;
+}
+
+.select-fighters {
+    text-align: right;
+    margin-bottom: 5px;
 }
