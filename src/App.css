@@ -1,38 +1,101 @@
-.App {
-  text-align: center;
+html {
+  font-size: 13px;
+  background-color: #000000c3;
+  color: #c7c5c5;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.content {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-around;
+  height: 85vh;
+  width: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+#game {
+  height: 100%;
+  width: 50vw;
+  overflow: auto;
+  border: 1px solid #ccc;
+  padding: 5px;
+  overflow-y: scroll;
+  font-size: large;
+  text-align: left;
 }
 
-@keyframes App-logo-spin {
+.simulation {
+  position: fixed;
+  top: 5%;
+  right: 13%;
+}
+.simulation #simulation {
+  width: 90px;
+}
+
+#scores {
+  position: fixed;
+  top: 10%;
+  right: 10%;
+}
+
+.scoreslist {
+  display: grid;
+  grid-template-columns: 8fr 2fr 2fr;
+}
+
+.loosing {
+  color: rgb(202, 33, 33);
+}
+
+.weapon {
+  color: rgb(253, 181, 74);
+}
+
+.shield {
+  color: rgb(37, 183, 250);
+}
+
+span {
+  transition: 2s ease-in-out;
+  font-size: x-large;
+  font-weight: 500;
+}
+
+.chance {
+  font-size: large;
+  font-weight: initial;
+  color: rgb(202, 166, 59);
+}
+
+.win {
+  color: rgb(38, 224, 38);
+  animation-name: win;
+  animation-duration: 12s;
+  animation-delay: 3s;
+}
+
+.death {
+  color: rgb(238, 31, 31);
+  animation-name: death;
+  animation-duration: 12s;
+  animation-delay: 3s;
+}
+
+@keyframes win {
   from {
-    transform: rotate(0deg);
+    color: rgb(38, 224, 38);
   }
+
   to {
-    transform: rotate(360deg);
+    color: #cbcbcb;
+  }
+}
+
+@keyframes death {
+  from {
+    color: rgb(238, 31, 31);
+  }
+
+  to {
+    color: #cbcbcb;
   }
 }

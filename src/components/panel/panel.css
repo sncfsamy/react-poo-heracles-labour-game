@@ -1,0 +1,26 @@
+.fighters, .fighters div:nth-child(2) div {
+    display: flex;
+}
+.fighters div:nth-child(2) div h3 {
+    display: inline-block;
+}
+.fighters div:nth-child(2) div {
+    justify-content: space-between;
+    align-items: center;
+}
+
+form div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttons {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+aside section {
+    max-width: 300px;
+}
