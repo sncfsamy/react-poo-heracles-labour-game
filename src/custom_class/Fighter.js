@@ -98,10 +98,12 @@ class Fighter {
 
     giveWeapon() {
         this.weapon = weapons[Math.ceil(Math.random() * weapons.length)-1];
+        this.weapon.durability = this.defaultDurability;
     }
 
     giveShield() {
         this.shield = shields[Math.ceil(Math.random() * shields.length)-1];
+        this.shield.durability = this.defaultDurability;
     }
 
     getDamage(fighter) {

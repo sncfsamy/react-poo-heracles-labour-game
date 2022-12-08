@@ -39,7 +39,7 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
                     { fighters.map(fighter => 
                         <option 
                             key={fighter.id}
-                            value={fighter.id} 
+                            value={fighter.id}
                             disabled={enemy && enemy.id===fighter.id}
                             >
                                 {fighter.getReverseName && fighter.getReverseName()}
