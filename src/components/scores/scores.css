@@ -1,0 +1,12 @@
+
+#scores {
+    position: fixed;
+    top: 10%;
+    right: 10%;
+}
+  
+.scoreslist {
+    display: grid;
+    grid-template-columns: 8fr 2fr 2fr;
+}
+  

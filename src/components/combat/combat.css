@@ -1,0 +1,18 @@
+
+#game {
+    height: 100%;
+    width: 50vw;
+    overflow: auto;
+    border: 1px solid #ccc;
+    padding: 5px;
+    overflow-y: scroll;
+    font-size: large;
+    text-align: left;
+}
+  
+.chance {
+    font-size: large;
+    font-weight: initial;
+    color: rgb(202, 166, 59);
+}
+  
