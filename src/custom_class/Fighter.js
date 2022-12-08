@@ -26,6 +26,7 @@ class Fighter {
         this.badChance = 0;
         this.winCount = 0;
         this.deathCount = 0;
+        this.intelligence = Math.random()*2;
         this.weapon = null;
         this.shield = null;
         this.id = ids;
@@ -78,6 +79,8 @@ class Fighter {
 
     win() {
         this.winCount += 1;
+        if (this.weapon && this.weapon.durability) this.weapon.durability += Math.floor(Math.random() * 10);
+        if (this.shield && this.shield.durability) this.shield.durability += Math.floor(Math.random() * 15);
     }
 
     death() {
@@ -106,7 +109,7 @@ class Fighter {
 
     getDamage(fighter) {
         const weaponDamage = this.weapon && this.weapon.durability ? this.weapon.damage : 0;
-        let attack = Math.random() * (this.strength + weaponDamage);
+        let attack = Math.random() * (this.strength + weaponDamage) + this.intelligence;
         let msg, looseShield, looseWeapon;
         const defAttack = attack;
         attack = (attack - fighter.getDefense())>0 ? attack-fighter.getDefense(): Math.random()>0.5? 1 : 0;
@@ -126,7 +129,7 @@ class Fighter {
     }
 
     getDefense() {
-        return this.dexterity + (this.shield? this.shield.protection : 0);
+        return this.dexterity + (this.shield? this.shield.protection : 0) + this.intelligence*0.75;
     }
 
     fight(fighter) {

@@ -36,7 +36,7 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
         <section className="fighters">
             <div>
                 <div><h3>Héro</h3></div>
-                <select id="hero" size="4" value={(hero && hero.id) || fighters[0].id} onChange={handleHeroSelect} disabled={inSimulation || inFight}>
+                <select id="hero" size="8" value={(hero && hero.id) || fighters[0].id} onChange={handleHeroSelect} disabled={inSimulation || inFight}>
                     { fighters.map(fighter => 
                         <option 
                             key={fighter.id}
@@ -50,7 +50,7 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
             </div>
             <div>
                 <div><h3>Ennemi</h3><label htmlFor="auto-enemy">Aléatoire<input type="checkbox" id="auto-enemy" value={localAutoEnemy} onChange={handleAutoEnemy} /></label></div>
-                <select id="ennemy" size="4" value={(enemy && enemy.id) || fighters[1].id} onChange={handleEnemySelect} disabled={inSimulation || localAutoEnemy || inFight}>
+                <select id="ennemy" size="8" value={(enemy && enemy.id) || fighters[1].id} onChange={handleEnemySelect} disabled={inSimulation || localAutoEnemy || inFight}>
                     { fighters.map(fighter => 
                         <option 
                             key={fighter.id}
