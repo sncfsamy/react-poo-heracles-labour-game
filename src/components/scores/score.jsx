@@ -18,12 +18,12 @@ const Score = ({fighter, inSimulation}) => {
         setDeathCount(fighter.deathCount);
     }, [fighter.winCount,fighter.deathCount]);
     return  <>
-                <div>{fighter.name}</div>
-                <div>
-                    <span style={win}>&nbsp;{fighter.winCount}</span>
+                <div><span className="hero">{fighter.name.substring(0,2)}</span><span className="hero-name">{fighter.name.substring(3)}</span></div>
+                <div>&nbsp;
+                    <span className="score" style={win}>&nbsp;{fighter.winCount}</span>
                 </div>
-                <div>
-                    <span style={death}>&nbsp;{fighter.deathCount}</span>
+                <div>&nbsp;
+                    <span className="score" style={death}>&nbsp;{fighter.deathCount}</span>
                 </div>
             </>
 }

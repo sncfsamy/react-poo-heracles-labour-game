@@ -9,4 +9,15 @@
     display: grid;
     grid-template-columns: 8fr 2fr 2fr;
 }
-  
+
+.hero {
+    font-size: xx-large;
+}
+.score {
+    font-size:xx-large;
+    line-height: 55px;
+}
+span.hero-name {
+    font-size: x-large;
+    line-height: 55px;
+}
