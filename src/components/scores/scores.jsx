@@ -5,7 +5,7 @@ import Score from './score';
 
 const Scores = ({inSimulation}) => {
     const { fighters } = useContext(Context);
-    return  <div>
+    return  <div className="scores">
                 <h2>Scores:</h2>
                 <div className="scoreslist">
                     <div><span><u>Combattants</u></span></div><div><span className="hero">🏆</span></div><div><span className="hero">💀</span></div>
