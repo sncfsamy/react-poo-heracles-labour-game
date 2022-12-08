@@ -7,7 +7,7 @@ const EditFighter = ({fighters, selectedFighter, setFighters, inFight, inSimulat
     const [fighter, setFighter] = React.useState(fighters.find(findById) || new Fighter("",0,0));
     const handleChange = (e) => {
         let value = e.target.id !== "name" && e.target.id !== "needWeapon" && e.target.id !== "canHaveWeapon" ? parseInt(e.target.value) : e.target.id === "needWeapon" || e.target.id === "canHaveWeapon" ? e.target.checked : e.target.value;
-        if ((e.target.id === "defaultLife" || e.target.id === "dexterity" || e.target.id === "strength") && (isNaN(e.target.value) || e.target.value === "")) {
+        if ((e.target.id === "defaultLife" || e.target.id === "dexterity" || e.target.id === "strength") && (isNaN(e.target.value) || e.target.value === "" || value < 0)) {
             e.target.value = fighter[e.target.id];
             value = e.target.value;
         }
@@ -15,7 +15,7 @@ const EditFighter = ({fighters, selectedFighter, setFighters, inFight, inSimulat
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        const newFighters = [...fighters];
+        let newFighters = [...fighters];
         if (fighterExist) {
             if (e.target.id !== "submit") {
                 newFighters.splice(newFighters.indexOf(newFighters.find(findById)),1);
@@ -34,7 +34,10 @@ const EditFighter = ({fighters, selectedFighter, setFighters, inFight, inSimulat
                     }
                 });
             }
-        } else newFighters.push(fighter);
+        } else {
+            const targetFighter = new Fighter(fighter.name,fighter.strength,fighter.dexterity,fighter.canHaveWeapon,fighter.needWeapon,fighter.defaultLife);
+            newFighters = [...newFighters, targetFighter];
+        }
         setFighters(newFighters);
     };
     const isDifferent = () => {

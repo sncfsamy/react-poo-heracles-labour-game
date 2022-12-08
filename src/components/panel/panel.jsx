@@ -42,7 +42,7 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
                             value={fighter.id} 
                             disabled={enemy && enemy.id===fighter.id}
                             >
-                                {fighter.getReverseName()}
+                                {fighter.getReverseName && fighter.getReverseName()}
                         </option>
                     )}
                 </select>
