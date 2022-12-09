@@ -30,41 +30,41 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
         autoEnemy.current = !autoEnemy.current;
     }
     return <aside>
-        <div>
-            <h2>Gestion des combats</h2>
-        </div>
-        <section className="fighters">
-            <div>
-                <div><h3>Héro</h3></div>
-                <select id="hero" size="8" value={(hero && hero.id) || fighters[0].id} onChange={handleHeroSelect} disabled={inSimulation || inFight}>
-                    { fighters.map(fighter => 
-                        <option 
-                            key={fighter.id}
-                            value={fighter.id}
-                            disabled={enemy && enemy.id===fighter.id}
-                            >
-                                {fighter.getReverseName && fighter.getReverseName()}
-                        </option>
-                    )}
-                </select>
-            </div>
-            <div>
-                <div><h3>Ennemi</h3><label htmlFor="auto-enemy">Aléatoire<input type="checkbox" id="auto-enemy" value={localAutoEnemy} onChange={handleAutoEnemy} /></label></div>
-                <select id="ennemy" size="8" value={(enemy && enemy.id) || fighters[1].id} onChange={handleEnemySelect} disabled={inSimulation || localAutoEnemy || inFight}>
-                    { fighters.map(fighter => 
-                        <option 
-                            key={fighter.id}
-                            value={fighter.id} 
-                            disabled={hero && hero.id===fighter.id}
-                            >
-                                {fighter.getReverseName()}
-                        </option>
-                    )}
-                </select>
+        <h2>Gestion des combats</h2>
+        <section>
+            <div className="fighters">
+                <div>
+                    <h3>Héro</h3>
+                    <select id="hero" size="8" value={(hero && hero.id) || fighters[0].id} onChange={handleHeroSelect} disabled={inSimulation || inFight}>
+                        { fighters.map(fighter => 
+                            <option 
+                                key={fighter.id}
+                                value={fighter.id}
+                                disabled={enemy && enemy.id===fighter.id}
+                                >
+                                    {fighter.getReverseName()}
+                            </option>
+                        )}
+                    </select>
+                </div>
+                <div>
+                    <div><h3>Ennemi</h3><label htmlFor="auto-enemy">Aléatoire<input type="checkbox" id="auto-enemy" value={localAutoEnemy} onChange={handleAutoEnemy} /></label></div>
+                    <select id="enemy" size="8" value={(enemy && enemy.id) || fighters[1].id} onChange={handleEnemySelect} disabled={inSimulation || localAutoEnemy || inFight}>
+                        { fighters.map(fighter => 
+                            <option 
+                                key={fighter.id}
+                                value={fighter.id} 
+                                disabled={hero && hero.id===fighter.id}
+                                >
+                                    {fighter.getReverseName()}
+                            </option>
+                        )}
+                    </select>
+                </div>
             </div>
         </section>
         <section>
-            <div className="buttons"><label htmlFor="autoGame"><input type="checkbox" id="autoGame" value={autoGame} disabled={inSimulation} onChange={(e)=> setAutoGame(!autoGame) } />Enchainer les combats automatiquement</label><button disabled={inSimulation || inFight} onClick={handleFight}>Combattre!</button></div>
+            <div className="buttons buttons-game"><label htmlFor="autoGame"><input type="checkbox" id="autoGame" value={autoGame} disabled={inSimulation} onChange={(e)=> setAutoGame(!autoGame) } />Enchainer les combats automatiquement</label><button disabled={inSimulation || inFight} onClick={handleFight}>Combattre!</button></div>
         </section>
         <section>
             <h3>Edition des combattants</h3>

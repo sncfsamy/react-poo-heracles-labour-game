@@ -6,8 +6,9 @@ const Combat = ({autoGame, inFight}) => {
     const { log, hero, enemy } = useContext(Context);
     const ref = createRef();
     useEffect(() => {
-        ref.current?.scrollIntoView();
+        //ref.current?.scrollIntoView();
+        ref.current?.scrollTo(0, ref.current.scrollHeight);
     }, [log,ref]);
-    return <main id="game">{log}<div ref={ref} />{(!inFight && autoGame && (!hero.isAlive() || !enemy.isAlive())) && <div className="win">Un combat recommencera dans 10sec...</div>}</main>
+    return <main><h2>Journal de combat</h2><div ref={ref}>{log}<div />{(!inFight && autoGame && (!hero.isAlive() || !enemy.isAlive())) && <div className="win">Un combat recommencera dans 10sec...</div>}</div></main>
 }
 export default Combat;

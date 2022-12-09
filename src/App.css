@@ -4,15 +4,27 @@ html {
   font-size: 13px;
   background-color: #000000c3;
   color: #c7c5c5;
+  height: 100vh;
 }
 
 .content {
   display: flex;
-  margin-left: 20px;
-  align-items: center;
-  justify-content: space-around;
-  height: 85vh;
+  flex-direction: column;
+  margin: 5px;
+  height: 85%;
   width: 100%;
+}
+
+button {
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+@media screen and (min-width:1030px) {
+  .content {
+    flex-direction: initial;
+  }
 }
 
 .simulation {

@@ -1,20 +1,38 @@
 
-#game {
+main {
     flex-grow: 1;
-    height: 100%;
-    overflow: auto;
+    height: 50vh;
+    padding-bottom: 20px;
+    width: 90%;
+}
+
+main > div {
     border: 1px solid #ccc;
-    padding: 5px;
-    margin-left: 50px;
-    margin-right: 20px;
+    border-radius: 5px;
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     overflow-y: scroll;
     font-size: large;
+    font-size: smaller;
     text-align: left;
 }
   
 .chance {
-    font-size: large;
-    font-weight: initial;
+    font-size: small;
     color: rgb(202, 166, 59);
+}
+
+@media screen and (min-width: 1030px) {
+    main {
+        height: 85vh;
+    }
+
+    main div {
+        width: 95%;
+        height: 100%;
+    }
 }
   

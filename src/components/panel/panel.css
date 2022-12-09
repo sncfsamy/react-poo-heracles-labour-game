@@ -1,18 +1,32 @@
 
-aside section {
-    min-width: 165px;
-    max-width: 330px;
+aside {
+    display: flex;
+    flex-direction: column;
 }
 
-aside div h2 {
+aside section {
+    width: 90%;
+    border: 1px solid rgba(204, 204, 204, 0.486);
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#hero, #enemy {
+    width: 90%;
+}
+
+#hero option,
+#enemy option {
+    width: 100%;
+}
+
+aside h2 {
     margin-left: -5px;
 }
 
-aside section > div {
-    margin-left: 10px;
-}
-
-aside section > div > div > h3, section > h3 {
+aside section h3  {
     margin-left: -5px;
 }
 
@@ -22,17 +36,17 @@ aside section > div > div > h3, section > h3 {
 
 .fighters {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
 
 .fighters div:nth-child(2) div h3 {
     display: inline-block;
 }
 
-.fighters div:nth-child(2) div {
+.fighters > div:nth-child(2) > div {
+    width: 80%;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
 }
 
 form div {
@@ -40,13 +54,26 @@ form div {
     justify-content: space-between;
 }
 
+@media screen and (min-width: 1030px) {
+    aside {
+        width: 40%;
+    }
+    aside section {
+        min-width: 165px;
+        max-width: 100%;
+    }
+}
 .buttons {
     margin-top: 15px;
     margin-bottom: 15px;
     display: flex;
     justify-content: flex-end;
 }
+.buttons-game {
+    justify-content:space-between;
+}
 .select-fighters {
     text-align: right;
     margin-bottom: 5px;
 }
+
