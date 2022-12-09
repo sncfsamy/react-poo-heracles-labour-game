@@ -1,6 +1,5 @@
 Version REACT de https://github.com/WildCodeSchool/js-poo-heracles-labour-1
 
-NON RESPONSIVE
 
 Playble here: [https://sncfsamy.github.io/react-poo-heracles-labour-game/](https://sncfsamy.github.io/react-poo-heracles-labour-game/)
 
