@@ -89,12 +89,16 @@ function App() {
       heal = (hero.life+heal > hero.defaultLife)? hero.defaultLife-hero.life : heal;
       toLog = <>{toLog}<div>{hero.heal(heal)}</div></>;
     }
+    if (enemy.life < enemy.defaultLife) {
+      heal = (hero.defaultLife - enemy.life > enemy.defaultLife || enemy.life === 0 || hero.needWeapon) ? enemy.defaultLife-enemy.life : 50;
+      heal = (enemy.life+heal > enemy.defaultLife)? enemy.defaultLife-enemy.life : heal;
+      toLog = <>{toLog}<div>{enemy.heal(heal)}</div></>;
+    }
     if (hero.canHaveWeapon && !hero.shield && !hero.weapon && (((Math.random() > 0.5 || Math.random() < 0.2) && enemy.needWeapon) || Math.random() > 0.8)) {
       hero.giveWeapon();
       hero.giveShield();
       toLog = <>{toLog}<div>{hero.name} a trouvé une <b className="weapon">{hero.weapon.name}</b> et un <b className="shield">{hero.shield.name}</b> !</div></>;
     }
-    enemy.life = enemy.defaultLife;
     toLog = <>{toLog}<div>{hero.getLife()}</div><div>{enemy.getLife()}</div>{!inSimulation && <div className={"win"}>Le combat commencera dans 10sec...</div>}</>
     setLog(toLog);
     restartTimeout = setTimeout(() => {restartTimeout=undefined; fight();}, inSimulation ? 1 : 10000);
