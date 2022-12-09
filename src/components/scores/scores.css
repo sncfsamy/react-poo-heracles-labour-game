@@ -2,6 +2,7 @@
 .scores {
     width: 100%;
     margin-right: 10px;
+    margin-top: 50px;
 }
   
 .scoreslist {
@@ -23,7 +24,7 @@ span.hero-name {
     line-height: clamp(22px, 35px, 55px);
 }
 
-@media screen and (min-width: 1030px) {
+@media screen and (min-width: 1200px) {
     .scores {
         width: 30%;
         min-width: 300px;

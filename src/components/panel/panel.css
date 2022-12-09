@@ -2,10 +2,12 @@
 aside {
     display: flex;
     flex-direction: column;
+    width: 99%;
+    margin-right: 10px;
 }
 
 aside section {
-    width: 90%;
+    width: 98%;
     border: 1px solid rgba(204, 204, 204, 0.486);
     border-radius: 5px;
     padding: 10px;
@@ -14,7 +16,7 @@ aside section {
 }
 
 #hero, #enemy {
-    width: 90%;
+    width: 100%;
 }
 
 #hero option,
@@ -36,7 +38,7 @@ aside section h3  {
 
 .fighters {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
 }
 
 .fighters div:nth-child(2) div h3 {
@@ -54,9 +56,9 @@ form div {
     justify-content: space-between;
 }
 
-@media screen and (min-width: 1030px) {
+@media screen and (min-width: 1200px) {
     aside {
-        width: 40%;
+        width: initial;
     }
     aside section {
         min-width: 165px;
