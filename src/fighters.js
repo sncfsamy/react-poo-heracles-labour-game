@@ -9,7 +9,7 @@ const fighters = [
     new Fighter('🐘', 'Élephant d\'Afrique', 21, 8.3, false, false, 190),
     new Fighter('🐅', 'Tigre du Bengale', 15, 17),
     new Fighter('🐿️', 'Écureuil enragé', 13, 19),
-    new Fighter('🦛', 'Hippopotame', 20, 9, false, false, 200)
+    new Fighter('🦛', 'Hippopotame', 20, 9, false, false, 220)
 ];
 
 export default fighters;
