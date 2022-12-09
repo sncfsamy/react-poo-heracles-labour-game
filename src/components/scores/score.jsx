@@ -18,7 +18,7 @@ const Score = ({fighter, inSimulation}) => {
         setDeathCount(fighter.deathCount);
     }, [fighter.winCount,fighter.deathCount]);
     return  <>
-                <div><span className="hero">{fighter.name.substring(0,2)}</span><span className="hero-name">{fighter.name.substring(3)}</span></div>
+                <div><span className="hero">{fighter.emoji}</span><span className="hero-name">{fighter.name}</span></div>
                 <div>&nbsp;
                     <span className="score" style={win}>&nbsp;{fighter.winCount}</span>
                 </div>

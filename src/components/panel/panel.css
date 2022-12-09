@@ -51,7 +51,8 @@ aside section h3  {
     align-items: baseline;
 }
 
-form div {
+form:not(.edit-fighters) div,
+form.edit-fighters > div > div {
     display: flex;
     justify-content: space-between;
 }
@@ -75,7 +76,19 @@ form div {
     justify-content:space-between;
 }
 .select-fighters {
-    text-align: right;
     margin-bottom: 5px;
 }
 
+form.edit-fighters {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+form.edit-fighters {
+    --epr-hover-bg-color: rgb(253, 253, 253);
+    --epr-bg-color: rgba(0, 0, 0);
+    --epr-category-label-bg-color: #3f3f3fc3;
+    --epr-emoji-size: 22px;
+    --epr-text-color: #c7c5c5;
+    --epr-emoji-gap: 1px;
+}
