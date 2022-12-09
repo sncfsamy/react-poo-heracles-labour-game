@@ -83,7 +83,12 @@ form.edit-fighters {
     display: grid;
     grid-template-columns: auto 1fr;
 }
-
+form.edit-fighters div:nth-child(1) {
+    margin-right: 10px;
+}
+form.edit-fighters div p {
+    text-align: justify;
+}
 form.edit-fighters {
     --epr-hover-bg-color: rgb(253, 253, 253);
     --epr-bg-color: rgba(0, 0, 0);
