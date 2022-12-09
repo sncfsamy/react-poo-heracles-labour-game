@@ -38,7 +38,7 @@ function App() {
     toLog = <>{toLog}<div>🕛 Round n°{round}</div>{attackHero ? attackHero : ""}{attackEnemy ? attackEnemy:""}</>;
     if (!fightEnded){
         round++;
-        setTimeout(fight, inSimulation ? 0 : 500);
+        setTimeout(fight, inSimulation ? 1 : 500);
     } else {
       const heroAverageGlobalDamage = (hero.attacksSumLastFight/hero.attacksLastFight).toFixed(2);
       const enemyAverageGlobalDamage = (enemy.attacksSumLastFight/enemy.attacksLastFight).toFixed(2);
