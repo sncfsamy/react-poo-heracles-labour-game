@@ -6,7 +6,6 @@ import Panel from './components/panel/panel';
 import Scores from './components/scores/scores';
 import initialFighters from './fighters';
 import Context from './context';
-import Footer from './components/footer/footer';
 
 let round = 1;
 let toLog = <></>;
@@ -115,7 +114,6 @@ function App() {
   }, [autoGame,toSimulate,inSimulation]);
 
   return (
-    <div>
       <Context.Provider value={{ log, hero, enemy, fighters, toSimulate, autoEnemy }}>
         <Header />
         <div className="content">
@@ -136,9 +134,7 @@ function App() {
           <Combat autoGame={autoGame} />
           <Scores inSimulation={inSimulation} />
         </div>
-        <Footer />
       </Context.Provider>
-    </div>
   );
 }
 
