@@ -71,6 +71,7 @@ form.edit-fighters > div > div {
 
 .select-fighters {
     margin-bottom: 5px;
+    position: absolute;
 }
 
 .select-fighters select {
