@@ -3,9 +3,10 @@ aside {
     display: flex;
     flex-direction: column;
     width: 99%;
-    padding-right: 10px;
 }
-
+select option {
+    padding: 5px;
+}
 aside section {
     width: 98%;
     border: 1px solid rgba(204, 204, 204, 0.486);
@@ -72,13 +73,26 @@ form.edit-fighters > div > div {
     margin-bottom: 5px;
 }
 
+.select-fighters select {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 form.edit-fighters {
     display: grid;
     grid-template-columns: auto 1fr;
+    align-items: center;
 }
 
-form.edit-fighters div:nth-child(1) {
+
+form.edit-fighters > div:nth-child(1) {
     margin-right: 10px;
+}
+
+form.edit-fighters > div > div:nth-child(1) {
+    display: flex;
+    align-items: baseline;
 }
 
 form.edit-fighters .name {
@@ -89,13 +103,30 @@ form.edit-fighters div p {
     text-align: justify;
 }
 
-form.edit-fighters {
+form.edit-fighters aside.EmojiPickerReact div *{
     --epr-hover-bg-color: rgb(253, 253, 253);
     --epr-bg-color: rgba(0, 0, 0);
     --epr-category-label-bg-color: #3f3f3fc3;
-    --epr-emoji-size: 22px;
+    --epr-emoji-size: 20px;
     --epr-text-color: #c7c5c5;
     --epr-emoji-gap: 1px;
+    --epr-header-padding: 2px;
+    --epr-category-label-height: 15px;
+}
+
+.epr-preview {
+    --epr-preview-height: 35px !important;
+    --epr-preview-text-size: 20px !important;
+}
+
+.epr-emoji-native {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 20px !important;
+}
+
+div.epr-preview-emoji-label {
+    --epr-preview-text-size: 10px;
 }
 
 @media screen and (min-width: 1200px) {

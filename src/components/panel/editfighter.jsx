@@ -62,7 +62,7 @@ const EditFighter = ({fighters, selectedFighter, setFighters, inFight, inSimulat
     return  <div>
                 <form className="edit-fighters" onSubmit={handleSubmit}>
                     <div>
-                        <div>Emoji: <b style={{fontSize: "xxx-large"}}>{fighter.emoji}</b></div>
+                        <div><div>Emoji:</div><div><b style={{fontSize: "xxx-large"}}>{fighter.emoji}</b></div></div>
                         <div><label htmlFor="name">Nom:</label><input type="text" id="name" className="name" value={fighter.name} onChange={handleChange} disabled={inFight || inSimulation} /></div>
                         <div><label htmlFor="strength">Force:</label><input type="number" size="6" id="strength" value={fighter.strength} onChange={handleChange} disabled={inFight || inSimulation} /></div>
                         <div><label htmlFor="dexterity">Dexterité:</label><input type="number" size="6" id="dexterity" value={fighter.dexterity} onChange={handleChange} disabled={inFight || inSimulation} /></div>

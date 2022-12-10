@@ -77,10 +77,10 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
             <h3>Edition des combattants</h3>
             <div className="select-fighters">
                 <select onChange={(e) => setSelectedFighter(e.target.value)} value={selectedFighter}>
-                    <option value="-1">Ajouter un combattant</option>
+                    <option value="-1">🥷 Ajouter un combattant</option>
                     { fighters.map(fighter => 
                         <option key={fighter.id} value={fighter.id}>
-                            {fighter.name}
+                            {fighter.emoji} {fighter.name}
                         </option>
                     )}
                 </select>
