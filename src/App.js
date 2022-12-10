@@ -104,7 +104,7 @@ function App() {
     restartTimeout = setTimeout(() => {restartTimeout=undefined; fight();}, inSimulation ? 1 : 10000);
   }
   useEffect(() => {
-    if ((!inFight && inSimulation && toSimulate > 0) || !inFight && !restartTimeout && autoGame) {
+    if ((!inFight && inSimulation && toSimulate > 0) || (!inFight && !restartTimeout && autoGame)) {
       if (autoEnemy.current) pickNewEnemy();
       restartTimeout = setTimeout(() => {restartTimeout=undefined; startFight();}, inSimulation ? 1 : 0);
     } else if (inSimulation && toSimulate === 0) {

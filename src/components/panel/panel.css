@@ -3,7 +3,7 @@ aside {
     display: flex;
     flex-direction: column;
     width: 99%;
-    margin-right: 10px;
+    padding-right: 10px;
 }
 
 aside section {
@@ -57,24 +57,17 @@ form.edit-fighters > div > div {
     justify-content: space-between;
 }
 
-@media screen and (min-width: 1200px) {
-    aside {
-        width: initial;
-    }
-    aside section {
-        min-width: 165px;
-        max-width: 100%;
-    }
-}
 .buttons {
     margin-top: 15px;
     margin-bottom: 15px;
     display: flex;
     justify-content: flex-end;
 }
+
 .buttons-game {
     justify-content:space-between;
 }
+
 .select-fighters {
     margin-bottom: 5px;
 }
@@ -83,12 +76,19 @@ form.edit-fighters {
     display: grid;
     grid-template-columns: auto 1fr;
 }
+
 form.edit-fighters div:nth-child(1) {
     margin-right: 10px;
 }
+
+form.edit-fighters .name {
+    width: 78px;
+}
+
 form.edit-fighters div p {
     text-align: justify;
 }
+
 form.edit-fighters {
     --epr-hover-bg-color: rgb(253, 253, 253);
     --epr-bg-color: rgba(0, 0, 0);
@@ -96,4 +96,17 @@ form.edit-fighters {
     --epr-emoji-size: 22px;
     --epr-text-color: #c7c5c5;
     --epr-emoji-gap: 1px;
+}
+
+@media screen and (min-width: 1200px) {
+    aside {
+        width: initial;
+    }
+    aside section {
+        min-width: 165px;
+        max-width: 100%;
+    }
+    form.edit-fighters .name {
+        width: initial;
+    }
 }

@@ -1,13 +1,11 @@
-import React from "react";
-import ReactDOM from 'react-dom';
+import React, {useState, useEffect} from "react";
 import Fighter from "../../custom_class/Fighter";
 import EmojiPicker from 'emoji-picker-react';
 
 const EditFighter = ({fighters, selectedFighter, setFighters, inFight, inSimulation}) => {
     const findById = (fighter) => fighter.id===parseInt(selectedFighter);
     const fighterExist = fighters.find(findById)!==undefined;
-    const emojiRef = React.useRef(null);
-    const [fighter, setFighter] = React.useState(fighters.find(findById) || new Fighter("🥷","",0,0));
+    const [fighter, setFighter] = useState(fighters.find(findById) || new Fighter("🥷","",0,0));
 
     const handleChange = (e) => {
         let value = e.target.id !== "name" && e.target.id !== "needWeapon" && e.target.id !== "canHaveWeapon" && e.target.id !== "emoji" ? parseInt(e.target.value) : e.target.id === "needWeapon" || e.target.id === "canHaveWeapon" ? e.target.checked : e.target.value;
@@ -60,12 +58,12 @@ const EditFighter = ({fighters, selectedFighter, setFighters, inFight, inSimulat
         }
         return false;
     }
-    React.useEffect(()=> setFighter(fighters.find(findById) || new Fighter("🥷","",0,0)),[selectedFighter]);
+    useEffect(()=> setFighter(fighters.find(findById) || new Fighter("🥷","",0,0)),[selectedFighter]);
     return  <div>
                 <form className="edit-fighters" onSubmit={handleSubmit}>
                     <div>
                         <div>Emoji: <b style={{fontSize: "xxx-large"}}>{fighter.emoji}</b></div>
-                        <div><label htmlFor="name">Nom:</label><input type="text" id="name" value={fighter.name} onChange={handleChange} disabled={inFight || inSimulation} /></div>
+                        <div><label htmlFor="name">Nom:</label><input type="text" id="name" className="name" value={fighter.name} onChange={handleChange} disabled={inFight || inSimulation} /></div>
                         <div><label htmlFor="strength">Force:</label><input type="number" size="6" id="strength" value={fighter.strength} onChange={handleChange} disabled={inFight || inSimulation} /></div>
                         <div><label htmlFor="dexterity">Dexterité:</label><input type="number" size="6" id="dexterity" value={fighter.dexterity} onChange={handleChange} disabled={inFight || inSimulation} /></div>
                         <div><label htmlFor="defaultLife">Points de vie:</label><input type="number" size="6" id="defaultLife" value={fighter.defaultLife} onChange={handleChange} disabled={inFight || inSimulation} /></div>
