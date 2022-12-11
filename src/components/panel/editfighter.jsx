@@ -95,31 +95,31 @@ const EditFighter = ({fighters, selectedFighter, inFight, inSimulation, socketUR
     return  <div>
                 <form className="edit-fighters" onSubmit={handleSubmit}>
                     <div>
-                        <div style={{paddingTop: "30px"}}><div>Emoji:</div><div><b style={{fontSize: "xxx-large"}}>{fighter.emoji}</b></div></div>
+                        <div><div>Emoji:</div><div><b style={{fontSize: "xxx-large"}}>{fighter.emoji}</b></div></div>
                         <div><label htmlFor="name">Nom:</label><input type="text" id="name" className="name" value={fighter.name} onChange={handleChange} disabled={inFight || inSimulation} /></div>
-                        <div><label htmlFor="strength">Force:</label><input type="number" size="6" id="strength" value={fighter.strength} onChange={handleChange} disabled={inFight || inSimulation} /></div>
-                        <div><label htmlFor="dexterity">Dexterité:</label><input type="number" size="6" id="dexterity" value={fighter.dexterity} onChange={handleChange} disabled={inFight || inSimulation} /></div>
-                        <div><label htmlFor="defaultLife">Points de vie:</label><input type="number" size="6" id="defaultLife" value={fighter.defaultLife} onChange={handleChange} disabled={inFight || inSimulation} /></div>
+                        <div><label htmlFor="strength">Force:</label><input type="number" id="strength" value={fighter.strength} onChange={handleChange} disabled={inFight || inSimulation} /></div>
+                        <div><label htmlFor="dexterity">Dexterité:</label><input type="number" id="dexterity" value={fighter.dexterity} onChange={handleChange} disabled={inFight || inSimulation} /></div>
+                        <div><label htmlFor="defaultLife">Points de vie:</label><input type="number" id="defaultLife" value={fighter.defaultLife} onChange={handleChange} disabled={inFight || inSimulation} /></div>
                         <div><label htmlFor="canHaveWeapon"><input type="checkbox" id="canHaveWeapon" disabled={inFight || inSimulation} checked={fighter.canHaveWeapon} onChange={handleChange}/>Peut porter arme et bouclier</label></div>
                         <div><label htmlFor="needWeapon"><input type="checkbox" id="needWeapon" disabled={inFight || inSimulation} checked={fighter.needWeapon} onChange={handleChange}/>Nécessite* arme et bouclier pour être battu</label></div>
                         <div><p>* Si il peut s'en équiper, forcera le héro ennemi à obtenir une épée et un bouclier en début de combat.</p></div>
                     </div>
                     <div>
-                        <EmojiPicker autoFocusSearch={true} skinTonesDisabled={true} width="170px" height="300px" emojiStyle="native" categories={['smileys_people','animals_nature']} theme="dark" onEmojiClick={(data) => { handleChange({ target: { id :"emoji", value: data.emoji }}); }}/>
+                        <EmojiPicker autoFocusSearch={true} skinTonesDisabled={true} width="170px" height="250px" emojiStyle="native" categories={['smileys_people','animals_nature']} theme="dark" onEmojiClick={(data) => { handleChange({ target: { id :"emoji", value: data.emoji }}); }}/>
+                        <div className="buttons">
+                            <button id="delete" onClick={handleSubmit} disabled={inFight || inSimulation}>
+                                {fighterExist ? "Supprimer" : "Ajouter"}
+                            </button>
+                            { fighterExist && <button id="submit" onClick={handleSubmit} disabled={inFight || inSimulation || !isDifferent()}>
+                                Appliquer les modifications
+                            </button>}
+                        </div>
                     </div>
                 </form>
-                <div className="buttons">
-                    <button id="delete" onClick={handleSubmit} disabled={inFight || inSimulation}>
-                        {fighterExist ? "Supprimer" : "Ajouter"}
-                    </button>
-                    { fighterExist && <button id="submit" onClick={handleSubmit} disabled={inFight || inSimulation || !isDifferent()}>
-                        Appliquer les modifications
-                    </button>}
-                </div>
                 <h4>Réinitialiser les combattants:</h4>
                 <div className="buttons buttons-reset">
-                    <button id="resetdef" onClick={() => fetch(socketURL + "/reset/0")}>Par défaut</button>
-                    <button id="resetteam" onClick={() => fetch(socketURL + "/reset/1")}>Dev-o-beurre</button>
+                    <button onClick={() => fetch(socketURL + "/reset/0")}>Par défaut</button>
+                    <button onClick={() => fetch(socketURL + "/reset/1")}>Avec les Dev-o-beurre</button>
                 </div>
             </div>
 }

@@ -251,11 +251,10 @@ function App() {
             startFight={startFight}
             pickNewEnemy={pickNewEnemy}
             setToSimulate={setToSimulate}
-            playersOnline={playersOnline}
             socketURL={socketURL}
           />
           <Combat />
-          <Scores inSimulation={inSimulation} />
+          <Scores inSimulation={inSimulation} playersOnline={playersOnline} />
         </div>
       </Context.Provider>
   );
