@@ -211,7 +211,7 @@ function App() {
             inFight && setInFight(false);
             inSimulation && setInSimulation(false);
             hero && hero.id===id && setHero(newFighters[0] && newFighters[0]);
-            enemy && enemy.id===id && setHero(newFighters[1] && newFighters[1]);
+            enemy && enemy.id===id && setEnemy(newFighters[1] && newFighters[1]);
           } 
           newFighters.splice(i,1);
           break;
@@ -232,6 +232,8 @@ function App() {
         newFighters.push(new Fighter(id,emoji,name,strength,dexterity,canHaveWeapon,needWeapon,defaultLife));
       });
       setFighters(newFighters);
+      setHero(newFighters[0] && newFighters[0]);
+      setEnemy(newFighters[1] && newFighters[1]);
     });
   }, [fighters, inFight, inSimulation]);
   return (

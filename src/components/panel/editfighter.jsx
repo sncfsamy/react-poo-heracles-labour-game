@@ -92,6 +92,13 @@ const EditFighter = ({fighters, selectedFighter, inFight, inSimulation, socketUR
         return false;
     }
     useEffect(()=> setFighter(fighters.find(findById) || new Fighter(null, "🥷","",0,0)),[selectedFighter]);
+    useEffect(() => {
+        fighters.forEach(f => {
+            if (f.id === fighter.id) {
+                setFighter(new Fighter(f.id, f.emoji, f.name,f.strength, f.dexterity, f.canHaveWeapon,f.needWeapon,f.defaultLife));
+            }
+        })
+    }, [fighters]);
     return  <div>
                 <form className="edit-fighters" onSubmit={handleSubmit}>
                     <div>
