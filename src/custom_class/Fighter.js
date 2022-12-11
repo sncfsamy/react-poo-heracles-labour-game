@@ -17,27 +17,27 @@ const shields = [
 ];
 
 class Fighter {
-    constructor (emoji, name, strength, dexterity, canHaveWeapon = false, needWeapon = false, life = MAX_LIFE) {
+    constructor (id, emoji, name, strength, dexterity, canHaveWeapon = false, needWeapon = false, life = MAX_LIFE) {
         this.emoji = emoji;
         this.name = name;
-        this.strength = strength;
-        this.dexterity = dexterity;
-        this.life = life;
-        this.defaultLife = life;
+        this.strength = parseInt(strength);
+        this.dexterity = parseInt(dexterity);
+        this.life = parseInt(life);
+        this.defaultLife = parseInt(life);
         this.badChance = 0;
         this.winCount = 0;
         this.deathCount = 0;
         this.intelligence = Math.random()*2;
         this.weapon = null;
         this.shield = null;
-        this.id = ids;
+        this.id = parseInt(id) || ids;
         this.attacks = 0;
         this.attacksSum = 0;
         this.attacksLastFight = 0;
         this.attacksSumLastFight = 0;
         this.canHaveWeapon = canHaveWeapon;
         this.needWeapon = needWeapon;
-        ids++;
+        ids = id > ids ? id + 1 : ids + 1;
     }
 
     setLooseWeaponOrShield(f) {

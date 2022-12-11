@@ -4,8 +4,12 @@ import Combat from './components/combat/combat';
 import Header from './components/header/header';
 import Panel from './components/panel/panel';
 import Scores from './components/scores/scores';
-import initialFighters from './fighters';
+import socketIO from "socket.io-client";
 import Context from './context';
+import Fighter from './custom_class/Fighter';
+import socketURL from './socket_url';
+
+const socket = socketIO.connect(socketURL, {secure: true});
 
 let round = 1;
 let toLog = <></>;
@@ -13,13 +17,15 @@ let restartTimeout;
 function App() {
   const [log, setLog] = useState(<></>);
   const [toSimulate, setToSimulate] = useState(0);
-  const [fighters, setFighters] = useState(initialFighters);
-  const [hero, setHero] = useState(initialFighters[0]);
-  const [enemy, setEnemy] = useState(initialFighters[1]);
+  const [fighters, setFighters] = useState([]);
+  const [hero, setHero] = useState(fighters[0] && fighters[0]);
+  const [enemy, setEnemy] = useState(fighters[1] && fighters[1]);
   const [inSimulation, setInSimulation] = useState(false);
+  const [refreshFighters, setRefreshFighters] = useState(true);
   const autoEnemy = useRef(false);
   const [autoGame, setAutoGame] = useState(false);
   const [inFight, setInFight] = useState(false);
+  const [playersOnline, setPlayersOnline] = useState(0);
   function pickNewEnemy() {
     const enemies = fighters.filter(fighter => fighter.id !== hero.id && fighter.id !== enemy.id);
     setEnemy(enemies[Math.ceil(Math.random() * enemies.length)-1]);
@@ -99,9 +105,14 @@ function App() {
       hero.giveShield();
       toLog = <>{toLog}<div>{hero.name} a trouvé une <b className="weapon">{hero.weapon.name}</b> et un <b className="shield">{hero.shield.name}</b> !</div></>;
     }
-    toLog = <>{toLog}<div>{hero.getLife()}</div><div>{enemy.getLife()}</div>{!inSimulation && <div className={"win"}>Le combat commencera dans 10sec...</div>}</>
+    if (enemy.canHaveWeapon && !enemy.shield && !enemy.weapon && (((Math.random() > 0.5 || Math.random() < 0.2) && hero.needWeapon) || Math.random() > 0.8)) {
+      enemy.giveWeapon();
+      enemy.giveShield();
+      toLog = <>{toLog}<div>{enemy.name} a trouvé une <b className="weapon">{enemy.weapon.name}</b> et un <b className="shield">{enemy.shield.name}</b> !</div></>;
+    }
+    toLog = <>{toLog}<div>{hero.getLife()}</div><div>{enemy.getLife()}</div>{!inSimulation && <div className={"win"}>Le combat commencera dans 5sec...</div>}</>
     setLog(toLog);
-    restartTimeout = setTimeout(() => {restartTimeout=undefined; fight();}, inSimulation ? 1 : 10000);
+    restartTimeout = setTimeout(() => {restartTimeout=undefined; fight();}, inSimulation ? 1 : 5000);
   }
   useEffect(() => {
     if ((!inFight && inSimulation && toSimulate > 0) || (!inFight && !restartTimeout && autoGame)) {
@@ -116,7 +127,113 @@ function App() {
       setLog(<div className="death">Combat annulé !</div>);
     } 
   }, [autoGame,toSimulate,inSimulation]);
-
+  useEffect(() => {
+    if (refreshFighters) {
+      fetch(socketURL)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        const newFighters = [];
+        data.forEach(({id,emoji,name,strength,dexterity,defaultLife,canHaveWeapon,needWeapon}) => newFighters.push(new Fighter(id,emoji,name,strength,dexterity,canHaveWeapon,needWeapon,defaultLife)));
+        setFighters(newFighters);
+        if ((hero && hero.id) || (enemy && enemy.id)) {
+          let heroSet = false;
+          let enemySet = false;
+          newFighters.forEach(fighter => { 
+            if (hero && fighter.id === hero.id) {
+              heroSet = true;
+              setHero(fighter);
+            } else if (enemy && fighter.id === enemy.id) { 
+              enemySet = true;
+              setEnemy(fighter);
+            } 
+          });
+          !heroSet && setHero(newFighters[0] && newFighters[0]);
+          !enemySet && setEnemy(newFighters[1] && newFighters[1]);
+        }
+        !hero && setHero(newFighters[0] && newFighters[0]);
+        !enemy && setEnemy(newFighters[1] && newFighters[1]);
+      });
+      setRefreshFighters(false);
+    }
+  }, [refreshFighters]);
+  useEffect(() => {
+    socket.off("add");
+    socket.off("update");
+    socket.off("delete");
+    socket.off("players");
+    socket.off("reset");
+    socket.on("add", ({id,emoji,name,strength,dexterity,defaultLife,canHaveWeapon,needWeapon}) => {
+      const newFighters = [...fighters];
+      newFighters.push(new Fighter(id,emoji,name,strength,dexterity,canHaveWeapon,needWeapon,defaultLife));
+      setFighters(newFighters);
+    });
+    socket.on("update", ({id,emoji,name,strength,dexterity,defaultLife,canHaveWeapon,needWeapon}) => {
+      const newFighters = [...fighters];
+      newFighters.forEach(f => {
+        if (f.id == id) {
+          f.emoji = emoji;
+          f.name = name;
+          f.strength = strength;
+          f.dexterity = dexterity;
+          f.defaultLife = defaultLife;
+          f.canHaveWeapon = canHaveWeapon;
+          f.needWeapon = needWeapon;
+          if (hero.id === id) {
+            hero.emoji = emoji;
+            hero.name = name;
+            hero.strength = strength;
+            hero.dexterity = dexterity;
+            hero.defaultLife = defaultLife;
+            hero.canHaveWeapon = canHaveWeapon;
+            hero.needWeapon = needWeapon;
+          } else if (enemy.id === id) {
+            enemy.emoji = emoji;
+            enemy.name = name;
+            enemy.strength = strength;
+            enemy.dexterity = dexterity;
+            enemy.defaultLife = defaultLife;
+            enemy.canHaveWeapon = canHaveWeapon;
+            enemy.needWeapon = needWeapon;
+          }
+          return;
+        }
+      });
+      setFighters(newFighters);
+    });
+    socket.on("delete", (id) => {
+      const newFighters = [...fighters];
+      for (let i=0; i<newFighters.length; i++)
+      {
+        if (newFighters[i].id === parseInt(id)) {
+          if (hero && hero.id === id || enemy && enemy.id === id) {
+            inFight && setInFight(false);
+            inSimulation && setInSimulation(false);
+            hero && hero.id===id && setHero(newFighters[0] && newFighters[0]);
+            enemy && enemy.id===id && setHero(newFighters[1] && newFighters[1]);
+          } 
+          newFighters.splice(i,1);
+          break;
+        }
+      }
+      setFighters(newFighters);
+    });
+    socket.on("players", (total) => {
+      setPlayersOnline(total);
+    });
+    socket.on("reset", (data) => {
+      if (inSimulation || inFight) {
+        setInFight(false);
+        setInSimulation(false);
+      }
+      const newFighters = [];
+      data.forEach(({id,emoji,name,strength,dexterity,defaultLife,canHaveWeapon,needWeapon}) => {
+        newFighters.push(new Fighter(id,emoji,name,strength,dexterity,canHaveWeapon,needWeapon,defaultLife));
+      });
+      setFighters(newFighters);
+    });
+  }, [fighters, inFight, inSimulation]);
   return (
       <Context.Provider value={{ log, hero, enemy, fighters, toSimulate, autoEnemy }}>
         <Header />
@@ -127,15 +244,17 @@ function App() {
             inSimulation={inSimulation}
             setInSimulation={setInSimulation}
             inFight={inFight}
+            setInFight={setInFight}
             fight={fight}
             setHero={setHero}
             setEnemy={setEnemy}
             startFight={startFight}
-            setFighters={setFighters}
             pickNewEnemy={pickNewEnemy}
             setToSimulate={setToSimulate}
+            playersOnline={playersOnline}
+            socketURL={socketURL}
           />
-          <Combat autoGame={autoGame} />
+          <Combat />
           <Scores inSimulation={inSimulation} />
         </div>
       </Context.Provider>

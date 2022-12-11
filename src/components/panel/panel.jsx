@@ -3,8 +3,8 @@ import './panel.css';
 import Context from '../../context';
 import EditFighter from "./editfighter";
 
-const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickNewEnemy,
-    setHero, setEnemy, setFighters, setToSimulate, setInSimulation }) => {
+const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickNewEnemy, setInFight,
+    setHero, setEnemy, setFighters, setToSimulate, setInSimulation, setRefreshFighters, playersOnline, socketURL }) => {
     const findById = (fighter,id) => fighter.id===parseInt(id);
     const { hero, enemy, fighters, toSimulate, autoEnemy } = useContext(Context);
     const [selectedFighter, setSelectedFighter] = useState(-1);
@@ -18,10 +18,12 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
                 setInSimulation(true);
             }
         } else {
+            setInFight(false);
             setInSimulation(false);
         }
     };
     const handleFight = () => {
+        setInFight(true);
         if(autoEnemy.current) pickNewEnemy();
         startFight();
     }
@@ -31,11 +33,12 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
     }
     return <aside>
         <h2>Gestion des combats</h2>
+        <span>{playersOnline + (playersOnline > 1 ? " joueurs en ligne" : " joueur en ligne")}</span>
         <section>
             <div className="fighters">
                 <div>
                     <h3>Héro</h3>
-                    <select id="hero" size="5" value={(hero && hero.id) || fighters[0].id} onChange={handleHeroSelect} disabled={inSimulation || inFight}>
+                    <select id="hero" size="5" value={(hero && hero.id) || (fighters[0] && fighters[0].id) || -1} onChange={handleHeroSelect} disabled={inSimulation || inFight}>
                         { fighters.map(fighter => 
                             <option 
                                 key={fighter.id}
@@ -49,7 +52,7 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
                 </div>
                 <div>
                     <div><h3>Ennemi</h3><label htmlFor="auto-enemy">Aléatoire<input type="checkbox" id="auto-enemy" value={localAutoEnemy} onChange={handleAutoEnemy} /></label></div>
-                    <select id="enemy" size="5" value={(enemy && enemy.id) || fighters[1].id} onChange={handleEnemySelect} disabled={inSimulation || localAutoEnemy || inFight}>
+                    <select id="enemy" size="5" value={(enemy && enemy.id) || (fighters[1] && fighters[1].id) || -1} onChange={handleEnemySelect} disabled={inSimulation || localAutoEnemy || inFight}>
                         { fighters.map(fighter => 
                             <option 
                                 key={fighter.id}
@@ -85,7 +88,7 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
                     )}
                 </select>
             </div>
-            <EditFighter selectedFighter={selectedFighter} setFighters={setFighters} fighters={fighters} inFight={inFight} inSimulation={inSimulation} />
+            <EditFighter selectedFighter={selectedFighter} setFighters={setFighters} fighters={fighters} inFight={inFight} inSimulation={inSimulation} setRefreshFighters={setRefreshFighters} socketURL={socketURL} />
         </section>
     </aside>
 }

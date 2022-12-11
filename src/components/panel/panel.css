@@ -69,6 +69,10 @@ form.edit-fighters > div > div {
     justify-content:space-between;
 }
 
+.buttons-reset {
+    gap: 20px;
+}
+
 .select-fighters {
     margin-bottom: 5px;
     position: absolute;
