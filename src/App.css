@@ -34,6 +34,7 @@ h3 {
 }
 
 button, select, input {
+  outline: none;
   padding: 5px;
   padding-left: 10px;
   padding-right: 10px;
@@ -43,9 +44,14 @@ button, select, input {
   background-color: #464646;
 }
 
-button:hover, #delete:hover, select:hover {
-  background-color: #585858;
+button:hover, #delete:hover, select:hover, input:hover {
+  background-color: #5c5c5c;
   border: 2px solid rgb(20, 20, 20);
+}
+
+input:focus {
+  background-color: #626262;
+  border: 2px solid rgb(179, 179, 179);
 }
 
 @media screen and (min-width:1200px) {

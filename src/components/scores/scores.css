@@ -15,16 +15,13 @@
 .hero {
     font-size: clamp(20px, larger, larger);
 }
+
 .score {
     font-size: clamp(20px, larger, larger);
     line-height: clamp(22px, 35px, 55px);
 }
 span.hero-name {
     line-height: clamp(22px, 35px, 55px);
-}
-
-span b {
-    font-size: clamp(22px, 26px, 30px);
 }
 
 @media screen and (min-width: 1200px) {

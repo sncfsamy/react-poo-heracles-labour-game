@@ -1,14 +1,19 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import './panel.css';
 import Context from '../../context';
 import EditFighter from "./editfighter";
 
-const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickNewEnemy, setInFight,
-    setHero, setEnemy, setFighters, setToSimulate, setInSimulation, setRefreshFighters, socketURL }) => {
+const Panel = ({ autoGame, setDoStartFight, inFight, inSimulation, setAutoGame, setInFight, setHero, setEnemy,
+    setFighters, setToSimulate, setInSimulation, setRefreshFighters, socketURL }) => {
     const findById = (fighter,id) => fighter.id===parseInt(id);
     const { hero, enemy, fighters, toSimulate, autoEnemy } = useContext(Context);
     const [selectedFighter, setSelectedFighter] = useState(-1);
     const [localAutoEnemy, setLocalAutoEnemy] = useState(autoEnemy.current);
+    
+  function pickNewEnemy() {
+    const enemies = fighters.filter(fighter => fighter.id !== hero.id && fighter.id !== enemy.id);
+    setEnemy(enemies[Math.ceil(Math.random() * enemies.length)-1]);
+  }
     const handleHeroSelect = (e) => setHero(fighters.find((fighter => { return findById(fighter, e.target.value)})));
     const handleEnemySelect = (e) => setEnemy(fighters.find((fighter => { return findById(fighter, e.target.value)})));
     const handleSimulate = (e) => {
@@ -23,14 +28,17 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
         }
     };
     const handleFight = () => {
+        if (autoEnemy.current) pickNewEnemy();
         setInFight(true);
-        if(autoEnemy.current) pickNewEnemy();
-        startFight();
+        setDoStartFight(true);
     }
     const handleAutoEnemy = (e) => {
         setLocalAutoEnemy(!autoEnemy.current);
         autoEnemy.current = !autoEnemy.current;
     }
+    const handleFocus = (e) => {
+        e.target.select();
+    };
     return <aside>
         <h2>Gestion des combats</h2>
         <section>
@@ -71,7 +79,7 @@ const Panel = ({ autoGame, startFight, inFight, inSimulation, setAutoGame, pickN
         <section>
             <h3>Simulation de combats de masse</h3>
             <form onSubmit={handleSimulate} style={{width: "100%"}}>
-                <div className="buttons"><label htmlFor="simulation">Combats à simuler:</label><input type="number" value={toSimulate} onChange={(e) => (e.target.value !== "" && /^\d*$/.test(e.target.value)) && setToSimulate(parseInt(e.target.value))} disabled={inSimulation || inFight} /><button onClick={handleSimulate} disabled={inFight && !inSimulation}>{inSimulation ? "Interrompre" : "Démarrer la simulation"}</button></div>
+                <div className="buttons"><label htmlFor="simulation">Combats à simuler:</label><input type="number" onFocus={handleFocus} value={toSimulate} onChange={(e) => (e.target.value !== "" && /^\d*$/.test(e.target.value)) && setToSimulate(parseInt(e.target.value))} disabled={inSimulation || inFight} /><button onClick={handleSimulate} disabled={inFight && !inSimulation}>{inSimulation ? "Interrompre" : "Démarrer la simulation"}</button></div>
             </form>
         </section>
         <section>
