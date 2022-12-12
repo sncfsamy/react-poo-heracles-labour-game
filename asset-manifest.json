@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/react-poo-heracles-labour-game/static/css/main.ff148e3d.css",
+    "main.css": "/react-poo-heracles-labour-game/static/css/main.e7719934.css",
     "main.js": "/react-poo-heracles-labour-game/static/js/main.cd931733.js",
     "static/js/787.db8d4c68.chunk.js": "/react-poo-heracles-labour-game/static/js/787.db8d4c68.chunk.js",
     "index.html": "/react-poo-heracles-labour-game/index.html",
-    "main.ff148e3d.css.map": "/react-poo-heracles-labour-game/static/css/main.ff148e3d.css.map",
+    "main.e7719934.css.map": "/react-poo-heracles-labour-game/static/css/main.e7719934.css.map",
     "main.cd931733.js.map": "/react-poo-heracles-labour-game/static/js/main.cd931733.js.map",
     "787.db8d4c68.chunk.js.map": "/react-poo-heracles-labour-game/static/js/787.db8d4c68.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ff148e3d.css",
+    "static/css/main.e7719934.css",
     "static/js/main.cd931733.js"
   ]
 }
