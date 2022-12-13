@@ -2,6 +2,7 @@ import React, {useState, useRef, useEffect} from 'react';
 import './App.css';
 import Combat from './components/combat/combat';
 import Header from './components/header/header';
+import Footer from './components/footer/footer';
 import Panel from './components/panel/panel';
 import Scores from './components/scores/scores';
 import socketIO from "socket.io-client";
@@ -20,6 +21,7 @@ function App() {
   const [fighters, setFighters] = useState([]);
   const [hero, setHero] = useState(fighters[0] && fighters[0]);
   const [enemy, setEnemy] = useState(fighters[1] && fighters[1]);
+  const [doStartFight, setDoStartFight] = useState(false);
   const [inSimulation, setInSimulation] = useState(false);
   const [refreshFighters, setRefreshFighters] = useState(true);
   const autoEnemy = useRef(false);
@@ -72,10 +74,10 @@ function App() {
         }
       } else {
         setInFight(false);
-        if (autoGame) {
-          if (autoEnemy.current) pickNewEnemy();
-          restartTimeout = setTimeout(()=> {restartTimeout=undefined; startFight();}, 10000);
-        }
+        // if (autoGame) {
+        //   if (autoEnemy.current) pickNewEnemy();
+        //   restartTimeout = setTimeout(()=> {restartTimeout=undefined; startFight();}, 10000);
+        // }
       }
     };
     setLog(toLog);
@@ -117,7 +119,7 @@ function App() {
   useEffect(() => {
     if ((!inFight && inSimulation && toSimulate > 0) || (!inFight && !restartTimeout && autoGame)) {
       if (autoEnemy.current) pickNewEnemy();
-      restartTimeout = setTimeout(() => {restartTimeout=undefined; startFight();}, inSimulation ? 1 : 0);
+      setDoStartFight(true);
     } else if (inSimulation && toSimulate === 0) {
       setInSimulation(false);
     } else if (!inSimulation && restartTimeout && !autoGame) {
@@ -126,7 +128,13 @@ function App() {
       setInFight(false);
       setLog(<div className="death">Combat annulé !</div>);
     } 
-  }, [autoGame,toSimulate,inSimulation]);
+  }, [autoGame,toSimulate,inSimulation,inFight]);
+  useEffect(() => {
+    if (doStartFight) {
+      restartTimeout = setTimeout(() => {restartTimeout=undefined; startFight();}, 1);
+      setDoStartFight(false);
+    }
+  }, [doStartFight]);
   useEffect(() => {
     if (refreshFighters) {
       fetch(socketURL)
@@ -147,13 +155,14 @@ function App() {
             } else if (enemy && fighter.id === enemy.id) { 
               enemySet = true;
               setEnemy(fighter);
-            } 
+            }
+            setHero((!hero && newFighters[0]) ? newFighters[0] : hero);
+            setEnemy((!enemy && newFighters[1]) ? newFighters[1] : enemy);
           });
-          !heroSet && setHero(newFighters[0] && newFighters[0]);
-          !enemySet && setEnemy(newFighters[1] && newFighters[1]);
+        } else {
+          setHero(!hero && newFighters[0] && newFighters[0]);
+          setEnemy(!enemy && newFighters[1] && newFighters[1]);
         }
-        !hero && setHero(newFighters[0] && newFighters[0]);
-        !enemy && setEnemy(newFighters[1] && newFighters[1]);
       });
       setRefreshFighters(false);
     }
@@ -210,8 +219,8 @@ function App() {
           if (hero && hero.id === id || enemy && enemy.id === id) {
             inFight && setInFight(false);
             inSimulation && setInSimulation(false);
-            hero && hero.id===id && setHero(newFighters[0] && newFighters[0]);
-            enemy && enemy.id===id && setEnemy(newFighters[1] && newFighters[1]);
+            hero && hero.id===id && setHero((newFighters[0] && (!enemy || newFighters[0].id !== enemy.id)) ? newFighters[0] : newFighters[1] && newFighters[1]);
+            enemy && enemy.id===id && setEnemy((newFighters[1] && (!hero || newFighters[1].id !== hero.id)) ? newFighters[1] : null);
           } 
           newFighters.splice(i,1);
           break;
@@ -232,8 +241,9 @@ function App() {
         newFighters.push(new Fighter(id,emoji,name,strength,dexterity,canHaveWeapon,needWeapon,defaultLife));
       });
       setFighters(newFighters);
-      setHero(newFighters[0] && newFighters[0]);
-      setEnemy(newFighters[1] && newFighters[1]);
+      
+      !hero && setHero(newFighters[0] && newFighters[0]);
+      !enemy && setEnemy(newFighters[1] && newFighters[1]);
     });
   }, [fighters, inFight, inSimulation]);
   return (
@@ -248,16 +258,16 @@ function App() {
             inFight={inFight}
             setInFight={setInFight}
             fight={fight}
-            setHero={setHero}
-            setEnemy={setEnemy}
-            startFight={startFight}
-            pickNewEnemy={pickNewEnemy}
             setToSimulate={setToSimulate}
             socketURL={socketURL}
+            setDoStartFight={setDoStartFight}
+            setHero={setHero}
+            setEnemy={setEnemy}
           />
           <Combat />
           <Scores inSimulation={inSimulation} playersOnline={playersOnline} />
         </div>
+        <Footer />
       </Context.Provider>
   );
 }

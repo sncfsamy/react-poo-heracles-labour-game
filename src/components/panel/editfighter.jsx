@@ -9,8 +9,8 @@ const EditFighter = ({fighters, selectedFighter, inFight, inSimulation, socketUR
     const [lastValue, setLastValue] = useState("");
     const handleChange = (e) => {
         let value = e.target.id !== "name" && e.target.id !== "needWeapon" && e.target.id !== "canHaveWeapon" && e.target.id !== "emoji" ? parseInt(e.target.value) : e.target.id === "needWeapon" || e.target.id === "canHaveWeapon" ? e.target.checked : e.target.value;
-        if (!isNaN(value) && e.target.id !== "name" && value < 0)
-            e.target.value = fighter[e.target.id];
+        if (e.target.id !== "name" && e.target.id !== "needWeapon" && e.target.id !== "canHaveWeapon" && e.target.id !== "emoji" && (isNaN(value) || value < 0))
+            value = fighter[e.target.id];
         setFighter({...fighter, [e.target.id] : value});
     };
     const handleSubmit = (e) => {
@@ -21,7 +21,8 @@ const EditFighter = ({fighters, selectedFighter, inFight, inSimulation, socketUR
                 newFighters.splice(newFighters.indexOf(newFighters.find(findById)),1);
                 fetch(socketURL + "/delete/" + fighter.id, {
                     method: 'DELETE',
-                }).then(rep => setFighter(new Fighter(null, "🥷","",0,0)));
+                });
+                setFighter(new Fighter(null, "🥷","",0,0));
             } else {
                 newFighters.forEach(orgFighter => {
                     if (orgFighter.id === fighter.id) {
@@ -56,6 +57,7 @@ const EditFighter = ({fighters, selectedFighter, inFight, inSimulation, socketUR
         } else {
             const targetFighter = new Fighter(fighter.id, fighter.emoji, fighter.name,fighter.strength,fighter.dexterity,fighter.canHaveWeapon,fighter.needWeapon,fighter.defaultLife);
             newFighters = [...newFighters, targetFighter];
+            console.log(fighter.id);
             fetch(socketURL+'/add', {
                 method: 'POST',
                 headers: {
@@ -71,7 +73,8 @@ const EditFighter = ({fighters, selectedFighter, inFight, inSimulation, socketUR
                     canHaveWeapon :fighter.canHaveWeapon, 
                     needWeapon: fighter.needWeapon
                 }),
-            }).then(rep => setFighter(new Fighter(null, "🥷","",0,0)));;
+            });
+            setFighter(new Fighter(null, "🥷","",0,0))
         }
     };
     const isDifferent = () => {

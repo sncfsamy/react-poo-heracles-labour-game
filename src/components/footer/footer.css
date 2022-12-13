@@ -1,0 +1,9 @@
+footer {
+    text-align: center;
+    height: 30px;
+}
+
+footer a {
+    margin-top: -20px;
+    color: white;
+}

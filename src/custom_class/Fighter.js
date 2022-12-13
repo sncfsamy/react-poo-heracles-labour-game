@@ -30,14 +30,14 @@ class Fighter {
         this.intelligence = Math.random()*2;
         this.weapon = null;
         this.shield = null;
-        this.id = parseInt(id) || ids;
+        this.id = parseInt(id || ids);
         this.attacks = 0;
         this.attacksSum = 0;
         this.attacksLastFight = 0;
         this.attacksSumLastFight = 0;
         this.canHaveWeapon = canHaveWeapon;
         this.needWeapon = needWeapon;
-        ids = id > ids ? id + 1 : ids + 1;
+        ids = id > ids ? parseInt(id) + 1 : parseInt(ids) + 1;
     }
 
     setLooseWeaponOrShield(f) {
